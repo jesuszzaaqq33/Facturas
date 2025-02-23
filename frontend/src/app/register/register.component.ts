@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-register',
@@ -12,14 +14,27 @@ import { FormsModule } from '@angular/forms';
 })
 export class RegisterComponent {
   username: string = '';
-  email: string = '';
   password: string = '';
-
-  constructor(private router: Router) {}
+  API_URL = environment.apiUrl;
+  constructor(private router: Router, private http: HttpClient) {}
 
   register() {
-    console.log('Registrando usuario:', this.username, this.email, this.password);
-    // Aquí deberías hacer una petición HTTP a tu backend para registrar al usuario.
+    const userData = {
+      username: this.username,
+      password: this.password
+    }
+    this.http.post<{ message: string }>(`${this.API_URL}/api/auth/register`, userData)
+    .subscribe(
+      response => {
+        console.log('✅ Registro exitoso:', response.message);
+        alert('Registro exitoso');
+        this.router.navigate(['/login']);
+      },
+      error => {
+        console.error('❌ Error en el registro:', error);
+        alert(error.error?.error || 'Error en el registro');
+      }
+    );
   }
 
   goToLogin() {
