@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -10,9 +12,9 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './login.component.html'
 })
 export class LoginComponent {
-  email = '';
+  username = ''
   password = '';
-
+  API_URL = environment.apiUrl
   constructor(private router: Router, private http: HttpClient) {}
 
   // login() {
@@ -22,10 +24,10 @@ export class LoginComponent {
   //   } else {
   //     alert('Credenciales incorrectas');
   //   }
-  // }
+  // }this.http.post<{ message: string }>(`${this.API_URL}/api/auth/register`, userData)
   login() {
-    this.http.post<{ token: string }>('http://localhost:5000/login', {
-      email: this.email,
+    this.http.post<{ token: string }>(`${this.API_URL}/api/auth/login`, {
+      username: this.username,
       password: this.password
     }).subscribe({
       next: (response) => {

@@ -24,6 +24,9 @@ const connectDB = async () => {
   try {
     await mongoose.connect(MONGODB_URI)
     console.log('✅ Conectado a MongoDB Atlas')
+    // 🗑️ Eliminar todos los usuarios
+    // await User.deleteMany({})
+    // console.log('⚠️ Todos los usuarios han sido eliminados.')
 
     // 🔍 Obtener y mostrar todos los usuarios (solo para depuración)
     const usuarios = await User.find({})
