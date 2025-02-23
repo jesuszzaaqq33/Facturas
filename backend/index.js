@@ -1,19 +1,40 @@
 import express from 'express'
+import cors from 'cors'
 import mongoose from 'mongoose'
 import { PORT, MONGODB_URI } from './config/config.js'
 import authRoutes from './routes/authRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import { User } from './models/User.js' // Asegúrate de que la ruta sea correcta
 
 const app = express()
 
+// ✅ Habilita CORS para todas las solicitudes
+app.use(cors())
+// Opción más segura: Permitir solo Angular (4200)
+app.use(cors({
+  origin: 'http://localhost:4200', // Permite solo este dominio
+  methods: 'GET,POST,PUT,DELETE',
+  allowedHeaders: 'Content-Type,Authorization'
+}))
 // Middleware para JSON
 app.use(express.json())
 
 // Conectar a MongoDB
-mongoose
-  .connect(MONGODB_URI)
-  .then(() => console.log('✅ Conectado a MongoDB Atlas'))
-  .catch((err) => console.error('❌ Error al conectar a MongoDB:', err))
+const connectDB = async () => {
+  try {
+    await mongoose.connect(MONGODB_URI)
+    console.log('✅ Conectado a MongoDB Atlas')
+
+    // 🔍 Obtener y mostrar todos los usuarios (solo para depuración)
+    const usuarios = await User.find({})
+    console.log('📋 Lista de usuarios:', usuarios)
+  } catch (err) {
+    console.error('❌ Error al conectar a MongoDB:', err)
+    process.exit(1) // Cerrar la app si hay un error
+  }
+}
+
+connectDB()
 
 // Rutas
 app.use('/api/auth', authRoutes)

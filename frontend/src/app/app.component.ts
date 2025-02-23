@@ -7,11 +7,6 @@ import { RouterOutlet } from '@angular/router';
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
-  template:
-  `
-  <h1>Sistema de Facturación</h1>
-  <router-outlet></router-outlet>
-`
 })
 export class AppComponent {
   title = 'frontend';
