@@ -5,20 +5,20 @@ import { PORT, MONGODB_URI } from './config/config.js'
 import authRoutes from './routes/authRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import { User } from './models/User.js' // Asegúrate de que la ruta sea correcta
+import cookieParser from 'cookie-parser' // 👈 Importar
 
 const app = express()
-
-// ✅ Habilita CORS para todas las solicitudes
-app.use(cors())
+app.use(express.json())
 // Opción más segura: Permitir solo Angular (4200)
 app.use(cors({
   origin: 'http://localhost:4200', // Permite solo este dominio
   methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization'
+  allowedHeaders: 'Content-Type,Authorization',
+  credentials: true
 }))
 // Middleware para JSON
-app.use(express.json())
 
+app.use(cookieParser())
 // Conectar a MongoDB
 const connectDB = async () => {
   try {
