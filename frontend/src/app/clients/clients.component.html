@@ -1,0 +1,14 @@
+<h2>Registrar nuevo cliente</h2>
+
+<form (ngSubmit)="registerClient()">
+  <label for="name">Nombre:</label>
+  <input id="name" [(ngModel)]="name" name="name" required>
+
+  <label for="email">Email:</label>
+  <input id="email" [(ngModel)]="email" name="email" type="email" required>
+
+  <button type="submit">Registrar cliente</button>
+</form>
+
+<button (click)="goBack()">Back</button>
+

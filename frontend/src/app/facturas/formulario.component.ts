@@ -14,12 +14,29 @@ import { environment } from '../../environments/environment';
 export class FormularioComponent {
   API_URL = environment.apiUrl
   cliente = '';
+  clientes: any[] = [];
   monto: number | null = null;
   constructor(private router: Router, private http: HttpClient) {}
-
+  ngOnInit() {
+    this.uploadClients();
+  }
+  uploadClients() {
+    this.http.get<any[]>(`${this.API_URL}/api/clientes`, { withCredentials: true })
+      .subscribe({
+        next: (data) => {
+          this.clientes = data;
+        },
+        error: (error) => {
+          console.error('Error al cargar clientes:', error);
+        }
+      });
+  }
   crearFactura() {
     console.log('Factura creada:', { cliente: this.cliente, monto: this.monto });
     alert('Factura guardada con éxito');
+  }
+  newClient() {
+    this.router.navigate(['/clients']); // Redirigir a la página de nuevo cliente
   }
   logout() {
     this.http.post(`${this.API_URL}/api/auth/logout`, {}, { withCredentials: true })

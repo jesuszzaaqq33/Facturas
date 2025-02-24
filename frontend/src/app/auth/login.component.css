@@ -1,0 +1,68 @@
+/* Estilos generales */
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(to right, #4A90E2, #004080);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Contenedor del formulario */
+.login-container {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  width: 320px;
+}
+
+/* Estilos para el título */
+h2 {
+  color: #004080;
+  margin-bottom: 1rem;
+}
+
+/* Campos de entrada */
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+/* Botones */
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+/* Botón de Ingresar */
+button[type="submit"] {
+  background: #004080;
+  color: white;
+}
+
+button[type="submit"]:hover {
+  background: #003060;
+}
+
+/* Botón de Registrarse */
+button:last-child {
+  background: #4A90E2;
+  color: white;
+}
+
+button:last-child:hover {
+  background: #357ABD;
+}

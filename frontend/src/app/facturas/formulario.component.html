@@ -1,11 +1,18 @@
 <h2>Crear Factura Electrónica</h2>
+
 <form (ngSubmit)="crearFactura()">
   <label for="cliente">Cliente:</label>
-  <input id="cliente" [(ngModel)]="cliente" name="cliente" required>
+  <select id="cliente" [(ngModel)]="cliente" name="cliente" required>
+    <option *ngFor="let cliente of clientes" [value]="cliente._id">{{ cliente.nombre }}</option>
+  </select>
+
+  <button type="button" (click)="newClient()">Nuevo Cliente</button>
 
   <label for="monto">Monto:</label>
   <input id="monto" [(ngModel)]="monto" name="monto" type="number" required>
 
   <button type="submit">Guardar Factura</button>
 </form>
+
 <button (click)="logout()">Cerrar sesión</button>
+
