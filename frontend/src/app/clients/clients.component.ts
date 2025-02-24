@@ -15,12 +15,13 @@ export class ClientsComponent {
   name = '';
   email = '';
   API_URL = environment.apiUrl;
+  clients: any[] = [];
   constructor(private router: Router, private http: HttpClient) {}
 
   registerClient() {
     const clientData = { name: this.name, email: this.email };
 
-    this.http.post(`${this.API_URL}/api/clients`, clientData).subscribe({
+    this.http.post(`${this.API_URL}/api/clients`, clientData, { withCredentials: true }).subscribe({
       next: (response) => {
         console.log('Client registered:', response);
         alert('Client registered successfully!');
@@ -34,6 +35,16 @@ export class ClientsComponent {
   }
   goBack() {
     this.router.navigate(['/facturas']); // Go back to invoices page
+  }
+  getClients() {
+    this.http.get<any[]>(`${this.API_URL}/api/clients`, { withCredentials: true }).subscribe({
+      next: (clients) => {
+        this.clients = clients;
+      },
+      error: (error) => {
+        console.error('Error fetching clients:', error);
+      }
+    });
   }
 }
 

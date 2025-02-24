@@ -6,6 +6,7 @@ import authRoutes from './routes/authRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 import { User } from './models/User.js' // Asegúrate de que la ruta sea correcta
 import cookieParser from 'cookie-parser' // 👈 Importar
+import clientRoutes from './routes/clientRoutes.js'
 
 const app = express()
 app.use(express.json())
@@ -42,6 +43,7 @@ connectDB()
 // Rutas
 app.use('/api/auth', authRoutes)
 app.use('/api', userRoutes)
+app.use('/api/clients', clientRoutes)
 
 // Ruta de bienvenida
 app.get('/', (req, res) => {
