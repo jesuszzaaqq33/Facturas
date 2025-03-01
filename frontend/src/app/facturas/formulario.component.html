@@ -8,7 +8,7 @@
     <div class="form-group">
       <label for="client">Cliente:</label>
       <select id="client" [(ngModel)]="client" name="client" required>
-        <option *ngFor="let client of clients" [value]="client._id">{{ client.nombre }}</option>
+        <option *ngFor="let client of clients" [value]="client._id">{{ client.name }}</option>
       </select>
       <button type="button" (click)="newClient()" class="btn btn-secondary">Nuevo Cliente</button>
       <button type="submit" class="btn btn-primary">Guardar Factura</button>

@@ -31,17 +31,18 @@ export class FormularioComponent implements OnInit{
     this.uploadClients();
   }
   uploadClients() {
-    this.http.get<any[]>(`${this.API_URL}/api/clientes`, { withCredentials: true })
-      .subscribe({
-        next: (data) => {
-          this.clients = data;
-          console.log(data)
-        },
-        error: (error) => {
-          console.error('Error al cargar clientes:', error);
-        }
-      });
+    this.http.get<any[]>(`${this.API_URL}/api/clients`, { withCredentials: true })
+    .subscribe({
+      next: (clients) => {
+        console.log(clients)
+        this.clients = clients;
+      },
+      error: (error) => {
+        console.error('Error fetching clients:', error);
+      }
+    });
   }
+
   crearFactura() {
     console.log('Factura creada:', { cliente: this.client});
     alert('Factura guardada con éxito');

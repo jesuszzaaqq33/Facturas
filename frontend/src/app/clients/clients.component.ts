@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css'
 })
-export class ClientsComponent implements OnInit {
+export class ClientsComponent {
   name = '';
   email = '';
   cif = '';
@@ -20,9 +20,9 @@ export class ClientsComponent implements OnInit {
   API_URL = environment.apiUrl;
   clients: any[] = [];
   constructor(private router: Router, private http: HttpClient) {}
-  ngOnInit() {
-    this.getClients(); // Llamar a la función al cargar el componente
-  }
+  // ngOnInit() {
+  //   this.getClients(); // Llamar a la función al cargar el componente
+  // }
   registerClient() {
     const clientData = {
       name: this.name,

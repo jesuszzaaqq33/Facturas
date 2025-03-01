@@ -6,9 +6,9 @@ const router = express.Router()
 // 📌 Ruta para registrar un nuevo cliente
 router.post('/', authenticateUser, async (req, res) => {
   try {
-    const { name, email } = req.body
+    const { name, email, cif, phone, address } = req.body
     const userId = req.user.id
-    const newClient = new Client({ name, email, userId })
+    const newClient = new Client({ name, email, userId, cif, phone, address })
     await newClient.save()
     res.status(201).json({ message: 'Client registered successfully!', client: newClient })
   } catch (error) {
