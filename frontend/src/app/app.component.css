@@ -1,3 +1,9 @@
+.centered {
+  display: flex;
+  justify-content: center;
+  align-items: top;
+  height: 100vh; /* O ajusta según necesites */
+}
 h1 {
   margin-bottom: 20px;
   font-size: 2.5rem;
@@ -5,11 +11,4 @@ h1 {
   color: #004080;
 }
 
-/* Estilos para el router-outlet para que ocupe todo el espacio */
-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100%;
-}
+

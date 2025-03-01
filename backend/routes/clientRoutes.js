@@ -19,9 +19,17 @@ router.post('/', authenticateUser, async (req, res) => {
 // 📌 Ruta para obtener todos los clientes
 router.get('/', authenticateUser, async (req, res) => {
   try {
-    const userId = req.user.id // 🔑 Solo obtenemos los clientes de este usuario
-    const clients = await Client.find({ userId })
+    // const userId = req.user.id // 🔑 Solo obtenemos los clientes de este usuario
+    console.log('🔹 Usuario autenticado:', req.user)
+    const userId = req.user?.id
+    if (!userId) {
+      return res.status(400).json({ message: 'User ID is missing' })
+    }
+    const allClients = await Client.find({})
+    console.log('📋 Todos los clientes en la BD:', allClients)
 
+    const clients = await Client.find({ userId })
+    console.log('📋 Clientes encontrados:', clients)
     res.json(clients)
   } catch (error) {
     res.status(500).json({ message: 'Error fetching clients', error })

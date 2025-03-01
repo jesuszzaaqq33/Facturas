@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
@@ -11,15 +11,26 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css'
 })
-export class ClientsComponent {
+export class ClientsComponent implements OnInit {
   name = '';
   email = '';
+  cif = '';
+  phone = null;
+  address = '';
   API_URL = environment.apiUrl;
   clients: any[] = [];
   constructor(private router: Router, private http: HttpClient) {}
-
+  ngOnInit() {
+    this.getClients(); // Llamar a la función al cargar el componente
+  }
   registerClient() {
-    const clientData = { name: this.name, email: this.email };
+    const clientData = {
+      name: this.name,
+      email: this.email,
+      cif: this.cif,
+      phone: this.phone,
+      address: this.address
+    };
 
     this.http.post(`${this.API_URL}/api/clients`, clientData, { withCredentials: true }).subscribe({
       next: (response) => {
@@ -37,8 +48,10 @@ export class ClientsComponent {
     this.router.navigate(['/facturas']); // Go back to invoices page
   }
   getClients() {
+
     this.http.get<any[]>(`${this.API_URL}/api/clients`, { withCredentials: true }).subscribe({
       next: (clients) => {
+        console.log(`${clients}`)
         this.clients = clients;
       },
       error: (error) => {

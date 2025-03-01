@@ -3,6 +3,7 @@ import { JWT_SECRET } from '../config/config.js'
 import { User } from '../models/User.js'
 export const authenticateUser = async (req, res, next) => {
   try {
+    // console.log('🔍 Cookies recibidas:', req.cookies)
     const token = req.cookies.token // 🔐 Leer el token desde las cookies
 
     if (!token) {

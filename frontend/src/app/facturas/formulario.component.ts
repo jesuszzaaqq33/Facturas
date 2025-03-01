@@ -1,21 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
-
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
+import { MatInputModule } from '@angular/material/input';
+export interface Factura {
+  cantidad: number;
+  descripcion: string;
+  precio: number;
+  total: number;
+}
 @Component({
   selector: 'app-formulario',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, MatTableModule, MatButtonModule, MatInputModule],
   templateUrl:'./formulario.component.html',
+  styleUrl: './formulario.component.css',
 })
-export class FormularioComponent {
+export class FormularioComponent implements OnInit{
   API_URL = environment.apiUrl
-  cliente = '';
-  clientes: any[] = [];
-  monto: number | null = null;
+  client = '';
+  clients: any[] = [];
+  displayedColumns: string[] = ['cantidad', 'descripcion', 'precio', 'total', 'acciones'];
+  dataSource: Factura[] = [];
   constructor(private router: Router, private http: HttpClient) {}
   ngOnInit() {
     this.uploadClients();
@@ -24,7 +34,8 @@ export class FormularioComponent {
     this.http.get<any[]>(`${this.API_URL}/api/clientes`, { withCredentials: true })
       .subscribe({
         next: (data) => {
-          this.clientes = data;
+          this.clients = data;
+          console.log(data)
         },
         error: (error) => {
           console.error('Error al cargar clientes:', error);
@@ -32,7 +43,7 @@ export class FormularioComponent {
       });
   }
   crearFactura() {
-    console.log('Factura creada:', { cliente: this.cliente, monto: this.monto });
+    console.log('Factura creada:', { cliente: this.client});
     alert('Factura guardada con éxito');
   }
   newClient() {
@@ -50,4 +61,19 @@ export class FormularioComponent {
         }
       });
   }
+  agregarFila() {
+    this.dataSource = [...this.dataSource, { cantidad: 1, descripcion: '', precio: 0, total: 0 }];
+  }
+
+  eliminarFila(index: number) {
+    this.dataSource.splice(index, 1);
+  }
+
+  actualizarTotal(factura: Factura) {
+    factura.total = factura.cantidad * factura.precio;
+  }
+  trackByIndex(index: number, item: any): number {
+    return index;
+  }
+
 }

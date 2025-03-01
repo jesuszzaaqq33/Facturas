@@ -1,0 +1,118 @@
+/* Contenedor principal */
+.container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f0f8ff; /* Azul claro */
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Estilos del título */
+h2 {
+  color: #004080; /* Azul oscuro */
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+/* Estilos del formulario */
+.factura-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: center;
+}
+
+label {
+  font-weight: bold;
+  color: #002b5c; /* Azul más oscuro */
+}
+
+input, select {
+  padding: 8px;
+  border: 1px solid #004080;
+  border-radius: 5px;
+  background-color: #ffffff;
+}
+
+/* Botones con gama de colores */
+.btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #004080;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+
+.btn-add {
+  background-color: #0066cc;
+  color: white;
+}
+
+.btn-delete {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+/* Estilos de la tabla */
+.factura-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #ffffff;
+}
+
+.factura-table th, .factura-table td {
+  border: 1px solid #004080;
+  padding: 10px;
+  text-align: center;
+}
+
+.factura-table th {
+  background: #004080;
+  color: white;
+}
+
+.factura-table tr:nth-child(even) {
+  background: #e6f2ff;
+}
+
+.btn-container {
+  display: flex;
+  justify-content: flex-start; /* Alinea el contenido a la izquierda */
+  margin-bottom: 10px;
+}
+.container-close {
+  display: flex;
+  justify-content: flex-end; /* Alinea el contenido a la izquierda */
+  margin-bottom: 10px;
+}

@@ -1,14 +1,37 @@
-<h2>Registrar nuevo cliente</h2>
+<div class="container">
+  <h2>Registrar Cliente</h2>
 
-<form (ngSubmit)="registerClient()">
-  <label for="name">Nombre:</label>
-  <input id="name" [(ngModel)]="name" name="name" required>
+  <form (ngSubmit)="registerClient()" class="factura-form">
+    <div class="form-group">
+      <label for="name">Nombre:</label>
+      <input id="name" [(ngModel)]="name" name="name" required>
+    </div>
 
-  <label for="email">Email:</label>
-  <input id="email" [(ngModel)]="email" name="email" type="email" required>
+    <div class="form-group">
+      <label for="cif">CIF:</label>
+      <input id="cif" [(ngModel)]="cif" name="cif" required>
+    </div>
 
-  <button type="submit">Registrar cliente</button>
-</form>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input id="email" [(ngModel)]="email" name="email" type="email" required>
+    </div>
 
-<button (click)="goBack()">Back</button>
+    <div class="form-group">
+      <label for="phone">Teléfono:</label>
+      <input id="phone" [(ngModel)]="phone" name="phone" type="number" required>
+    </div>
+
+    <div class="form-group">
+      <label for="address">Dirección:</label>
+      <input id="address" [(ngModel)]="address" name="address" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Registrar Cliente</button>
+  </form>
+
+  <div class="container-close">
+    <button (click)="goBack()" class="btn btn-secondary">Volver</button>
+  </div>
+</div>
 

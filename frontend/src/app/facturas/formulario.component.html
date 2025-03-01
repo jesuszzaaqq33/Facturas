@@ -1,18 +1,43 @@
-<h2>Crear Factura Electrónica</h2>
+<div class="container">
+  <div class="container-close">
+    <button (click)="logout()" class="btn btn-danger">Cerrar sesión</button>
+  </div>
+  <h2>Crear Factura Electrónica</h2>
 
-<form (ngSubmit)="crearFactura()">
-  <label for="cliente">Cliente:</label>
-  <select id="cliente" [(ngModel)]="cliente" name="cliente" required>
-    <option *ngFor="let cliente of clientes" [value]="cliente._id">{{ cliente.nombre }}</option>
-  </select>
+  <form (ngSubmit)="crearFactura()" class="factura-form">
+    <div class="form-group">
+      <label for="client">Cliente:</label>
+      <select id="client" [(ngModel)]="client" name="client" required>
+        <option *ngFor="let client of clients" [value]="client._id">{{ client.nombre }}</option>
+      </select>
+      <button type="button" (click)="newClient()" class="btn btn-secondary">Nuevo Cliente</button>
+      <button type="submit" class="btn btn-primary">Guardar Factura</button>
+    </div>
 
-  <button type="button" (click)="newClient()">Nuevo Cliente</button>
 
-  <label for="monto">Monto:</label>
-  <input id="monto" [(ngModel)]="monto" name="monto" type="number" required>
+  </form>
 
-  <button type="submit">Guardar Factura</button>
-</form>
-
-<button (click)="logout()">Cerrar sesión</button>
-
+  <div class="btn-container">
+    <button (click)="agregarFila()" class="btn btn-add">+ Agregar Producto</button>
+  </div>
+  <table class="factura-table">
+    <thead>
+      <tr>
+        <th>Cantidad</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Total</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of dataSource; let i = index">
+        <td><input type="number" [(ngModel)]="item.cantidad" (input)="actualizarTotal(item)" name="cantidad-{{i}}"></td>
+        <td><input type="text" [(ngModel)]="item.descripcion" name="descripcion-{{i}}"></td>
+        <td><input type="number" [(ngModel)]="item.precio" (input)="actualizarTotal(item)" name="precio-{{i}}"></td>
+        <td>{{ item.total | currency }}</td>
+        <td><button (click)="eliminarFila(i)" class="btn btn-delete">Eliminar</button></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
