@@ -12,14 +12,20 @@ export const authGuard: CanActivateFn = (route, state) => {
   const API_URL = environment.apiUrl;
   return http.get<{ authenticated: boolean }>(`${API_URL}/api/auth/check-auth`, { withCredentials: true }).pipe(
     map(response => {
+      console.log('Respuesta del servidor:', response);
+
       if (response.authenticated) {
         return true; // ✅ Usuario autenticado, permite acceso
       } else {
+        console.warn('Usuario no autenticado. Redirigiendo al login.');
+
         router.navigate(['/login']); // ❌ No autenticado, redirige al login
         return false;
       }
     }),
-    catchError(() => {
+    catchError((error) => {
+      console.error('Error en la autenticación:', error);
+
       router.navigate(['/login']); // ❌ Si hay error, redirige al login
       return of(false);
     })

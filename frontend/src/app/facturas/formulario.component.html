@@ -10,7 +10,8 @@
       <select id="client" [(ngModel)]="client" name="client" required>
         <option *ngFor="let client of clients" [value]="client._id">{{ client.name }}</option>
       </select>
-      <button type="button" (click)="newClient()" class="btn btn-secondary">Nuevo Cliente</button>
+      <button type="button" (click)="editClient()" class="btn btn-primary">Editar Clientes</button>
+      <button type="button" (click)="newClient()" class="btn btn-primary">Nuevo Cliente</button>
       <button type="submit" class="btn btn-primary">Guardar Factura</button>
     </div>
 

@@ -50,6 +50,13 @@ export class FormularioComponent implements OnInit{
   newClient() {
     this.router.navigate(['/clients']); // Redirigir a la página de nuevo cliente
   }
+  editClient() {
+    // console.log("Usuario autenticado:", this.authService.isLoggedIn()); // Verificar autenticación
+
+    console.log("Redirigiendo a edit-client...");
+    this.router.navigate(['/edit-client']); // Redirigir al formulario de edición
+  }
+
   logout() {
     this.http.post(`${this.API_URL}/api/auth/logout`, {}, { withCredentials: true })
       .subscribe({
