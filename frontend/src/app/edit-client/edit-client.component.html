@@ -13,8 +13,11 @@
         <td>{{ client.name }}</td>
         <td>{{ client.email }}</td>
         <td>
-          <button (click)="editClient()" class="btn btn-primary">Editar</button>
-          <button (click)="editClient()" class="btn btn-danger">Borrar</button>
+          <div class="actions">
+            <button (click)="editClient()" class="btn btn-primary">Editar</button>
+            <button (click)="deleteClient(client._id)" class="btn btn-danger">Borrar</button>
+          </div>
+
         </td>
       </tr>
     </tbody>

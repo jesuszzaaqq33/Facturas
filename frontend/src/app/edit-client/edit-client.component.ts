@@ -37,8 +37,23 @@ export class EditClientComponent {
   editClient(){
     console.log("hola")
   }
-  deleteClient(){
+  deleteClient(clientId: string){
     console.log("delete")
+    console.log("Eliminando cliente con ID:", clientId);
+
+    this.http.delete<{ message: string }>(`${this.API_URL}/api/clients/${clientId}`, { withCredentials: true })
+    .subscribe({
+      next: (response) => {
+        console.log('Cliente eliminado correctamente:', response.message);
+        alert(response.message); // Muestra una alerta con el mensaje del servidor
+        this.router.navigate(['/facturas']); // Redirige después de eliminar
+      },
+      error: (error) => {
+        console.error('Error al eliminar cliente:', error);
+        alert(error.error?.message || 'No se pudo eliminar el cliente.');
+      }
+    });
+
   }
   goBack() {
     this.router.navigate(['/facturas']); // Go back to invoices page
