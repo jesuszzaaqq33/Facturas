@@ -36,7 +36,7 @@
         <td><input type="number" [(ngModel)]="item.cantidad" (input)="actualizarTotal(item)" name="cantidad-{{i}}"></td>
         <td><input type="text" [(ngModel)]="item.descripcion" name="descripcion-{{i}}"></td>
         <td><input type="number" [(ngModel)]="item.precio" (input)="actualizarTotal(item)" name="precio-{{i}}"></td>
-        <td>{{ item.total | currency }}</td>
+        <td>{{ item.total | currency: 'EUR' }}</td>
         <td><button (click)="eliminarFila(i)" class="btn btn-delete">Eliminar</button></td>
       </tr>
     </tbody>

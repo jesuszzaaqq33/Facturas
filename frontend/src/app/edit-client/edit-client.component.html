@@ -1,23 +1,25 @@
- <!-- Lista de clientes con opción de editar -->
-  <!-- <div class="clients-table-container">
-    <h3>Lista de Clientes</h3>
-    <table class="clients-table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Email</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let client of clients">
-          <td>{{ client.name }}</td>
-          <td>{{ client.email }}</td>
-          <td>
-            <button (click)="editClient()" class="btn btn-edit">Editar</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div> -->
-<p>pagina para editar</p>
+<div class="clients-table-container">
+  <h3>Lista de Clientes</h3>
+  <table class="clients-table">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let client of clients">
+        <td>{{ client.name }}</td>
+        <td>{{ client.email }}</td>
+        <td>
+          <button (click)="editClient()" class="btn btn-primary">Editar</button>
+          <button (click)="editClient()" class="btn btn-danger">Borrar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="container-close">
+    <button (click)="goBack()" class="btn btn-secondary">Volver</button>
+  </div>
+</div>

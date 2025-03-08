@@ -1,0 +1,89 @@
+/* Contenedor principal */
+.clients-table-container {
+  max-width: 800px;
+  margin: 10px auto;
+  padding: 10px;
+  background: #f0f8ff; /* Azul claro */
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Estilos del título */
+.clients-table-container h3 {
+  color: #004080; /* Azul oscuro */
+  font-size: 2rem;
+}
+
+/* Estilos de la tabla */
+.clients-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: #ffffff;
+}
+
+.clients-table th, .clients-table td {
+  border: 1px solid #004080;
+  padding: 12px;
+  text-align: center;
+}
+
+.clients-table th {
+  background: #004080;
+  color: white;
+  font-weight: bold;
+}
+
+.clients-table tr:nth-child(even) {
+  background: #e6f2ff; /* Fondo alternado en filas pares */
+}
+
+.clients-table tr:hover {
+  background-color: #f1f1f1; /* Efecto hover en filas */
+}
+
+/* Estilos de los botones */
+.btn {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background-color: #004080;
+  color: white;
+}
+.btn-secondary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}
+
+/* Estilos adicionales */
+.btn-container {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 10px;
+}
+
+.container-close {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 10px;
+}
+/* Botón de volver alineado a la derecha */
+.container-close {
+  padding: 20px;
+}
