@@ -5,7 +5,7 @@ import { JWT_SECRET } from '../config/config.js'
 
 export const register = async (req, res) => {
   try {
-    let { username, password } = req.body
+    let { username, password, nameCompany, cif, email, address, phone } = req.body
 
     // 1️⃣ Validaciones básicas
     if (!username || !password) {
@@ -15,11 +15,15 @@ export const register = async (req, res) => {
     // 2️⃣ Limpiar entrada
     username = username.trim().toLowerCase()
     password = password.trim()
+    nameCompany = nameCompany.trim()
+    cif = cif.trim()
+    email = email.trim()
+    address = address.trim()
     const existingUser = await User.findOne({ username })
     if (existingUser) return res.status(400).json({ error: 'El usuario ya existe' })
 
     const hashedPassword = await bcrypt.hash(password, 10)
-    const user = new User({ username, password: hashedPassword })
+    const user = new User({ username, password: hashedPassword, nameCompany, cif, email, address, phone })
     await user.save()
 
     res.json({ message: 'Usuario registrado correctamente' })

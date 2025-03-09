@@ -4,7 +4,7 @@ import mongoose from 'mongoose'
 import { PORT, MONGODB_URI } from './config/config.js'
 import authRoutes from './routes/authRoutes.js'
 import userRoutes from './routes/userRoutes.js'
-// import { User } from './models/User.js' // Asegúrate de que la ruta sea correcta
+import { User } from './models/User.js' // Asegúrate de que la ruta sea correcta
 // import { Client } from './models/Client.js'
 import cookieParser from 'cookie-parser' // 👈 Importar
 import clientRoutes from './routes/clientRoutes.js'
@@ -31,8 +31,8 @@ const connectDB = async () => {
     // console.log('⚠️ Todos los usuarios han sido eliminados.')
 
     // 🔍 Obtener y mostrar todos los usuarios (solo para depuración)
-    // const usuarios = await User.find({})
-    // console.log('📋 Lista de usuarios:', usuarios)
+    const usuarios = await User.find({})
+    console.log('📋 Lista de usuarios:', usuarios)
     // const clientes = await Client.find({})
     // console.log('📋 Lista de usuarios:', clientes)
   } catch (err) {

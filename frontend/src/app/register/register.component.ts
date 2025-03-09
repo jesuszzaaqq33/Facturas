@@ -13,15 +13,26 @@ import { environment } from '../../environments/environment';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  username: string = '';
-  password: string = '';
+  username: string = ''
+  password: string = ''
+  nameCompany: string = ''
+  cif: string = ''
+  email: string = ''
+  phone = null
+  address: string = ''
   API_URL = environment.apiUrl;
   constructor(private router: Router, private http: HttpClient) {}
 
   register() {
     const userData = {
       username: this.username,
-      password: this.password
+      password: this.password,
+      nameCompany: this.nameCompany,
+      cif: this.cif,
+      email: this.email,
+      phone: this.phone,
+      address: this.address
+
     }
     this.http.post<{ message: string }>(`${this.API_URL}/api/auth/register`, userData)
     .subscribe(
