@@ -48,13 +48,11 @@ export class FormularioComponent implements OnInit{
     alert('Factura guardada con éxito');
   }
   newClient() {
-    this.router.navigate(['/clients']); // Redirigir a la página de nuevo cliente
+    this.router.navigate(['/clients']);
   }
   editClient() {
     // console.log("Usuario autenticado:", this.authService.isLoggedIn()); // Verificar autenticación
-
-    console.log("Redirigiendo a edit-client...");
-    this.router.navigate(['/edit-client']); // Redirigir al formulario de edición
+    this.router.navigate(['/edit-client']);
   }
 
   logout() {

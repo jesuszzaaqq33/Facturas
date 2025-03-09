@@ -11,18 +11,28 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css'
 })
-export class ClientsComponent {
+export class ClientsComponent implements OnInit  {
   name = '';
   email = '';
   cif = '';
-  phone = null;
+  phone: number | null = null;
   address = '';
   API_URL = environment.apiUrl;
   clients: any[] = [];
+  client: string | null = null
+  EditMode: boolean = false
   constructor(private router: Router, private http: HttpClient) {}
-  // ngOnInit() {
-  //   this.getClients(); // Llamar a la función al cargar el componente
-  // }
+
+  ngOnInit(): void {
+    const state = history.state;
+    if (state && state.client) {
+      this.client = state.client;
+      this.EditMode = true
+      console.log("Client ID:", this.client);
+      this.editClient(this.client)
+    }
+  }
+
   registerClient() {
     const clientData = {
       name: this.name,
@@ -31,7 +41,20 @@ export class ClientsComponent {
       phone: this.phone,
       address: this.address
     };
-
+    if (this.EditMode) {
+      // Modo edición (PUT)
+      this.http.put(`${this.API_URL}/api/clients/${this.client}`, clientData, { withCredentials: true }).subscribe({
+        next: (response) => {
+          console.log('Cliente actualizado:', response);
+          alert('Cliente actualizado correctamente!');
+          this.clearForm();
+        },
+        error: (error) => {
+          console.error('Error actualizando cliente:', error);
+          alert(error.error?.message || 'Error actualizando cliente');
+        }
+      });
+    } else {
     this.http.post(`${this.API_URL}/api/clients`, clientData, { withCredentials: true }).subscribe({
       next: (response) => {
         console.log('Client registered:', response);
@@ -43,21 +66,30 @@ export class ClientsComponent {
         alert(error.error?.message || 'Error registering client');
       }
     });
+    }
+  }
+  editClient(client: any) {
+    // this.client = client._id;
+    this.name = client.name;
+    this.email = client.email;
+    this.cif = client.cif;
+    this.phone = client.phone;
+    this.address = client.address;
+  }
+  clearForm() {
+    this.name = '';
+    this.email = '';
+    this.cif = '';
+    this.phone = null;
+    this.address = '';
+    this.client = null; // Salimos del modo edición
   }
   goBack() {
-    this.router.navigate(['/facturas']); // Go back to invoices page
-  }
-  getClients() {
-
-    this.http.get<any[]>(`${this.API_URL}/api/clients`, { withCredentials: true }).subscribe({
-      next: (clients) => {
-        console.log(`${clients}`)
-        this.clients = clients;
-      },
-      error: (error) => {
-        console.error('Error fetching clients:', error);
-      }
-    });
+    if (this.EditMode){
+      this.router.navigate(['/edit-client']);
+    }else {
+      this.router.navigate(['/facturas']);
+    }
   }
 }
 

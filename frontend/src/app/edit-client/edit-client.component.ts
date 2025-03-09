@@ -34,11 +34,11 @@ export class EditClientComponent {
       }
     });
   }
-  editClient(){
-    console.log("hola")
+  editClient(client: string){
+    console.log("hola", client)
+    this.router.navigate(['/clients'], { state: {client} });
   }
   deleteClient(clientId: string){
-    console.log("delete")
     console.log("Eliminando cliente con ID:", clientId);
 
     this.http.delete<{ message: string }>(`${this.API_URL}/api/clients/${clientId}`, { withCredentials: true })
@@ -46,7 +46,7 @@ export class EditClientComponent {
       next: (response) => {
         console.log('Cliente eliminado correctamente:', response.message);
         alert(response.message); // Muestra una alerta con el mensaje del servidor
-        this.router.navigate(['/facturas']); // Redirige después de eliminar
+        this.clients = this.clients.filter(client => client._id !== clientId);
       },
       error: (error) => {
         console.error('Error al eliminar cliente:', error);
