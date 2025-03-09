@@ -34,7 +34,6 @@ export class FormularioComponent implements OnInit{
     this.http.get<any[]>(`${this.API_URL}/api/clients`, { withCredentials: true })
     .subscribe({
       next: (clients) => {
-        console.log(clients)
         this.clients = clients;
       },
       error: (error) => {

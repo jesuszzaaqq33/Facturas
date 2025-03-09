@@ -1,5 +1,5 @@
 import express from 'express'
-import { createClient, deleteClient, getClients } from '../controllers/clientController.js'
+import { createClient, deleteClient, getClients, updateClient } from '../controllers/clientController.js'
 import { authenticateUser } from '../middleware/authMiddleware.js' // 🔐 Middleware para verificar el usuario
 const router = express.Router()
 
@@ -10,5 +10,7 @@ router.post('/', authenticateUser, createClient)
 router.get('/', authenticateUser, getClients)
 
 router.delete('/:clientId', authenticateUser, deleteClient)
+
+router.put('/:clientId', authenticateUser, updateClient)
 
 export default router

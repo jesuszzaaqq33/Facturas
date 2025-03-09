@@ -26,7 +26,6 @@ export class EditClientComponent {
     this.http.get<any[]>(`${this.API_URL}/api/clients`, { withCredentials: true })
     .subscribe({
       next: (clients) => {
-        console.log(clients)
         this.clients = clients;
       },
       error: (error) => {
@@ -35,12 +34,10 @@ export class EditClientComponent {
     });
   }
   editClient(client: string){
-    console.log("hola", client)
     this.router.navigate(['/clients'], { state: {client} });
   }
   deleteClient(clientId: string){
     console.log("Eliminando cliente con ID:", clientId);
-
     this.http.delete<{ message: string }>(`${this.API_URL}/api/clients/${clientId}`, { withCredentials: true })
     .subscribe({
       next: (response) => {

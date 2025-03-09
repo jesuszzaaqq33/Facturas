@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Client } from '../models/Client';
 
 @Component({
   selector: 'app-clients',
@@ -17,21 +18,36 @@ export class ClientsComponent implements OnInit  {
   cif = '';
   phone: number | null = null;
   address = '';
+  postalCode: number | null = null
   API_URL = environment.apiUrl;
   clients: any[] = [];
-  client: string | null = null
+  client: Client | null = null
   EditMode: boolean = false
   constructor(private router: Router, private http: HttpClient) {}
 
   ngOnInit(): void {
     const state = history.state;
     if (state && state.client) {
-      this.client = state.client;
-      this.EditMode = true
-      console.log("Client ID:", this.client);
-      this.editClient(this.client)
+      try {
+        this.client = typeof state.client === 'string' ? JSON.parse(state.client) : state.client;
+        this.EditMode = true;
+
+        if (this.client) {
+          this.name = this.client.name || '';
+          this.email = this.client.email || '';
+          this.cif = this.client.cif || '';
+          this.phone = this.client.phone || null;
+          this.address = this.client.address || '';
+          this.postalCode = this.client.postalCode || null;
+        }
+      } catch (error) {
+        console.error("Error al parsear el cliente:", error);
+      }
+    } else {
+      this.EditMode = false;
     }
   }
+
 
   registerClient() {
     const clientData = {
@@ -39,15 +55,15 @@ export class ClientsComponent implements OnInit  {
       email: this.email,
       cif: this.cif,
       phone: this.phone,
-      address: this.address
+      address: this.address,
+      postalCode: this.postalCode
     };
-    if (this.EditMode) {
-      // Modo edición (PUT)
-      this.http.put(`${this.API_URL}/api/clients/${this.client}`, clientData, { withCredentials: true }).subscribe({
+    if (this.EditMode && this.client?._id) {
+      this.http.put(`${this.API_URL}/api/clients/${this.client._id}`, clientData, { withCredentials: true }).subscribe({
         next: (response) => {
-          console.log('Cliente actualizado:', response);
+          // console.log('Cliente actualizado:', response);
           alert('Cliente actualizado correctamente!');
-          this.clearForm();
+          this.router.navigate(['/edit-client']);
         },
         error: (error) => {
           console.error('Error actualizando cliente:', error);
@@ -57,7 +73,7 @@ export class ClientsComponent implements OnInit  {
     } else {
     this.http.post(`${this.API_URL}/api/clients`, clientData, { withCredentials: true }).subscribe({
       next: (response) => {
-        console.log('Client registered:', response);
+        // console.log('Client registered:', response);
         alert('Client registered successfully!');
         this.router.navigate(['/facturas']); // Redirect to invoices page
       },
@@ -75,6 +91,7 @@ export class ClientsComponent implements OnInit  {
     this.cif = client.cif;
     this.phone = client.phone;
     this.address = client.address;
+    this.postalCode = client.postalCode
   }
   clearForm() {
     this.name = '';
@@ -82,7 +99,8 @@ export class ClientsComponent implements OnInit  {
     this.cif = '';
     this.phone = null;
     this.address = '';
-    this.client = null; // Salimos del modo edición
+    this.client = null;
+    this.postalCode = null
   }
   goBack() {
     if (this.EditMode){
