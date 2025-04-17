@@ -4,7 +4,7 @@
   </div>
   <h2>Crear Factura Electrónica</h2>
 
-  <form (ngSubmit)="crearFactura()" class="factura-form">
+  <form (ngSubmit)="createInvoice()" class="factura-form">
     <div class="form-group">
       <label for="client">Cliente:</label>
       <select id="client" [(ngModel)]="client" name="client" required>
@@ -12,7 +12,7 @@
       </select>
       <button type="button" (click)="editClient()" class="btn btn-primary">Editar Clientes</button>
       <button type="button" (click)="newClient()" class="btn btn-primary">Nuevo Cliente</button>
-      <button type="submit" class="btn btn-primary">Guardar Factura</button>
+      <button type="submit" class="btn btn-primary">Crear Factura</button>
     </div>
 
 

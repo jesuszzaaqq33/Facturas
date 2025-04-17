@@ -5,10 +5,10 @@ import { PORT, MONGODB_URI } from './config/config.js'
 import authRoutes from './routes/authRoutes.js'
 import userRoutes from './routes/userRoutes.js'
 // import { User } from './models/User.js' // Asegúrate de que la ruta sea correcta
-// import { Client } from './models/Client.js'
+import { Client } from './models/Client.js'
 import cookieParser from 'cookie-parser' // 👈 Importar
 import clientRoutes from './routes/clientRoutes.js'
-
+import ExcelJS from 'exceljs'
 const app = express()
 app.use(express.json())
 // Opción más segura: Permitir solo Angular (4200)
@@ -53,6 +53,58 @@ app.get('/', (req, res) => {
   res.send('<h1>Bienvenido a la API</h1>')
 })
 
+// Ruta para crear la factura
+let client = {}
+app.post('/generate-invoice', async (req, res) => {
+  const clientID = req.body.client
+  const { items } = req.body
+
+  try {
+    client = await Client.findById(clientID) // o findOne({ clientID })
+
+    if (!client) {
+      return res.status(404).json({ error: 'Cliente no encontrado' })
+    }
+    console.log('📋 Cliente encontrado:', client)
+    // Resto de lógica para generar la factura...
+  } catch (err) {
+    console.error('❌ Error al buscar el cliente:', err)
+    res.status(500).json({ error: 'Error del servidor' })
+  }
+  // Crear el libro de Excel
+  const workbook = new ExcelJS.Workbook()
+  const worksheet = workbook.addWorksheet('Factura')
+
+  // Título y encabezados
+  worksheet.addRow(['Factura para:'])
+  worksheet.addRow([client.name || client]) // si solo mandás el ID, ajustalo
+  worksheet.addRow([])
+  worksheet.addRow(['Item', 'Cantidad', 'Precio'])
+
+  // Agregar los ítems
+  items.forEach(item => {
+    worksheet.addRow([item.name, item.quantity, item.price])
+  })
+  // Total
+  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  worksheet.addRow([])
+  worksheet.addRow(['', 'Total', total])
+
+  // Configurar respuesta como archivo
+  res.setHeader(
+    'Content-Type',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  )
+  res.setHeader('Content-Disposition', 'attachment; filename=factura.xlsx')
+
+  // Enviar el Excel como stream
+  await workbook.xlsx.write(res)
+  res.end()
+})
+
+// app.listen(4200, () => {
+//   console.log('Backend escuchando en http://localhost:4200')
+// })
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`)

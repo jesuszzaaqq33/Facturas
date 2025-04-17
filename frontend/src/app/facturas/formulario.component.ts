@@ -7,6 +7,8 @@ import { environment } from '../../environments/environment';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { InvoiceService } from '../services/invoice.service';
+
 export interface Factura {
   cantidad: number;
   descripcion: string;
@@ -22,11 +24,11 @@ export interface Factura {
 })
 export class FormularioComponent implements OnInit{
   API_URL = environment.apiUrl
-  client = '';
+  client:string = '';
   clients: any[] = [];
   displayedColumns: string[] = ['cantidad', 'descripcion', 'precio', 'total', 'acciones'];
   dataSource: Factura[] = [];
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private router: Router, private http: HttpClient, private invoiceService: InvoiceService) {}
   ngOnInit() {
     this.uploadClients();
   }
@@ -41,11 +43,24 @@ export class FormularioComponent implements OnInit{
       }
     });
   }
-
-  crearFactura() {
-    console.log('Factura creada:', { cliente: this.client});
-    alert('Factura guardada con éxito');
+  createInvoice() {
+    const invoiceData = {
+      client: this.client,
+      items: this.dataSource
+    };
+    console.log(invoiceData)
+    this.invoiceService.generateInvoice(invoiceData).subscribe(response => {
+      const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'factura.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
   }
+
   newClient() {
     this.router.navigate(['/clients']);
   }
@@ -77,8 +92,8 @@ export class FormularioComponent implements OnInit{
   actualizarTotal(factura: Factura) {
     factura.total = factura.cantidad * factura.precio;
   }
-  trackByIndex(index: number, item: any): number {
-    return index;
-  }
+  // trackByIndex(index: number, item: any): number {
+  //   return index;
+  // }
 
 }
