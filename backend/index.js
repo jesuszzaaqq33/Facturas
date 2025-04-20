@@ -4,11 +4,12 @@ import mongoose from 'mongoose'
 import { PORT, MONGODB_URI } from './config/config.js'
 import authRoutes from './routes/authRoutes.js'
 import userRoutes from './routes/userRoutes.js'
+import invoiceRoutes from './routes/invoiceRoutes.js'
 // import { User } from './models/User.js' // Asegúrate de que la ruta sea correcta
-import { Client } from './models/Client.js'
+// import { Client } from './models/Client.js'
 import cookieParser from 'cookie-parser' // 👈 Importar
 import clientRoutes from './routes/clientRoutes.js'
-import ExcelJS from 'exceljs'
+
 const app = express()
 app.use(express.json())
 // Opción más segura: Permitir solo Angular (4200)
@@ -47,60 +48,75 @@ connectDB()
 app.use('/api/auth', authRoutes)
 app.use('/api', userRoutes)
 app.use('/api/clients', clientRoutes)
-
+app.use('/api', invoiceRoutes)
 // Ruta de bienvenida
 app.get('/', (req, res) => {
   res.send('<h1>Bienvenido a la API</h1>')
 })
 
 // Ruta para crear la factura
-let client = {}
-app.post('/generate-invoice', async (req, res) => {
-  const clientID = req.body.client
-  const { items } = req.body
+// let client = {}
+// let user = {}
+// let userId = ''
+// app.post('/generate-invoice', async (req, res) => {
+//   const clientID = req.body.client
+//   const { items } = req.body
 
-  try {
-    client = await Client.findById(clientID) // o findOne({ clientID })
+//   try {
+//     client = await Client.findById(clientID) // o findOne({ clientID })
 
-    if (!client) {
-      return res.status(404).json({ error: 'Cliente no encontrado' })
-    }
-    console.log('📋 Cliente encontrado:', client)
-    // Resto de lógica para generar la factura...
-  } catch (err) {
-    console.error('❌ Error al buscar el cliente:', err)
-    res.status(500).json({ error: 'Error del servidor' })
-  }
-  // Crear el libro de Excel
-  const workbook = new ExcelJS.Workbook()
-  const worksheet = workbook.addWorksheet('Factura')
+//     if (!client) {
+//       return res.status(404).json({ error: 'Cliente no encontrado' })
+//     }
+//     console.log('📋 Cliente encontrado:', client)
+//     userId = client.userId
+//     // Resto de lógica para generar la factura...
+//   } catch (err) {
+//     console.error('❌ Error al buscar el cliente:', err)
+//     res.status(500).json({ error: 'Error del servidor' })
+//   }
+//   try {
+//     user = await User.findById(userId)
 
-  // Título y encabezados
-  worksheet.addRow(['Factura para:'])
-  worksheet.addRow([client.name || client]) // si solo mandás el ID, ajustalo
-  worksheet.addRow([])
-  worksheet.addRow(['Item', 'Cantidad', 'Precio'])
+//     if (!user) {
+//       return res.status(404).json({ error: 'Usuario no encontrado' })
+//     }
+//     console.log('📋 Usuario encontrado:', user)
+//     // Resto de lógica para generar la factura...
+//   } catch (err) {
+//     console.error('❌ Error al buscar el usuario:', err)
+//     res.status(500).json({ error: 'Error del servidor' })
+//   }
+//   // Crear el libro de Excel
+//   const workbook = new ExcelJS.Workbook()
+//   const worksheet = workbook.addWorksheet('Factura')
 
-  // Agregar los ítems
-  items.forEach(item => {
-    worksheet.addRow([item.name, item.quantity, item.price])
-  })
-  // Total
-  const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  worksheet.addRow([])
-  worksheet.addRow(['', 'Total', total])
+//   // Título y encabezados
+//   worksheet.addRow(['Factura para:'])
+//   worksheet.addRow([client.name || client]) // si solo mandás el ID, ajustalo
+//   worksheet.addRow([])
+//   worksheet.addRow(['Item', 'Cantidad', 'Precio'])
 
-  // Configurar respuesta como archivo
-  res.setHeader(
-    'Content-Type',
-    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-  )
-  res.setHeader('Content-Disposition', 'attachment; filename=factura.xlsx')
+//   // Agregar los ítems
+//   items.forEach(item => {
+//     worksheet.addRow([item.name, item.quantity, item.price])
+//   })
+//   // Total
+//   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+//   worksheet.addRow([])
+//   worksheet.addRow(['', 'Total', total])
 
-  // Enviar el Excel como stream
-  await workbook.xlsx.write(res)
-  res.end()
-})
+//   // Configurar respuesta como archivo
+//   res.setHeader(
+//     'Content-Type',
+//     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+//   )
+//   res.setHeader('Content-Disposition', 'attachment; filename=factura.xlsx')
+
+//   // Enviar el Excel como stream
+//   await workbook.xlsx.write(res)
+//   res.end()
+// })
 
 // app.listen(4200, () => {
 //   console.log('Backend escuchando en http://localhost:4200')

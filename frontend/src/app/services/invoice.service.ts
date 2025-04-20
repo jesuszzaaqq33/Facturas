@@ -7,10 +7,9 @@ import { environment } from 'src/environments/environment';
 })
 export class InvoiceService {
   API_URL = environment.apiUrl
-  // private apiUrl = 'http://localhost:4200/generate-invoice';
   constructor(private http: HttpClient) {}
 
   generateInvoice(data: any) {
-    return this.http.post(`${this.API_URL}/generate-invoice`, data, { responseType: 'blob' });
+    return this.http.post(`${this.API_URL}/api/generate-invoice`, data, { responseType: 'blob' });
   }
 }

@@ -48,7 +48,6 @@ export class FormularioComponent implements OnInit{
       client: this.client,
       items: this.dataSource
     };
-    console.log(invoiceData)
     this.invoiceService.generateInvoice(invoiceData).subscribe(response => {
       const blob = new Blob([response], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
       const url = window.URL.createObjectURL(blob);
