@@ -24,6 +24,7 @@ export interface Factura {
 })
 export class FormularioComponent implements OnInit{
   API_URL = environment.apiUrl
+  numeroFactura:string =''
   client:string = '';
   clients: any[] = [];
   displayedColumns: string[] = ['cantidad', 'descripcion', 'precio', 'total', 'acciones'];

@@ -12,11 +12,11 @@ body {
 /* Contenedor del formulario */
 .login-container {
   background: #fff;
-  padding: 2rem;
+  padding: 2.5rem;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
-  width: 320px;
+  width: 340px;
 
 }
 
@@ -28,6 +28,7 @@ h2 {
 
 /* Campos de entrada */
 input {
+  box-sizing: border-box;
   width: 100%;
   padding: 10px;
   margin: 10px 0;
@@ -38,6 +39,7 @@ input {
 
 /* Botones */
 button {
+  box-sizing: border-box;
   width: 100%;
   padding: 10px;
   border: none;

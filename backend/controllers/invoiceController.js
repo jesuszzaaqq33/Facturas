@@ -3,12 +3,20 @@ import { User } from '../models/User.js'
 import { Client } from '../models/Client.js'
 import path from 'path'
 import moment from 'moment'
+import fs from 'fs'
+import { fileURLToPath } from 'url'
 
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 export const generateInvoice = async (req, res) => {
-  const filePath = path.resolve('files/Factura.xlsx')
+  const filePath = path.resolve(__dirname, '..', 'files', 'Factura.xlsx')
   console.log(filePath)
+  if (!fs.existsSync(filePath)) {
+    console.error('No se encontró el archivo Excel en:', filePath)
+  } else {
+    console.log('Archivo encontrado en:', filePath)
+  }
   const { client: clientID, items } = req.body
-  //   const clientID = req.body.client
   console.log(items)
   try {
     const client = await Client.findById(clientID)
@@ -32,25 +40,6 @@ export const generateInvoice = async (req, res) => {
     worksheet.getCell('B7').value = user.phone
 
     worksheet.getCell('E3').value = moment().format('DD/MM/YYYY')
-    worksheet.eachRow((row, rowIndex) => {
-      row.eachCell((cell, colIndex) => {
-        const oldFill = cell.fill
-        const oldFont = cell.font
-        const oldAlignment = cell.alignment
-        const oldBorder = cell.border
-
-        // Modificar el contenido
-        if (colIndex === 2) { // Ejemplo: modificar celda B
-          cell.value = 'Nuevo Valor'
-        }
-
-        // Copiar los estilos
-        cell.fill = oldFill
-        cell.font = oldFont
-        cell.alignment = oldAlignment
-        cell.border = oldBorder
-      })
-    })
 
     res.setHeader(
       'Content-Type',

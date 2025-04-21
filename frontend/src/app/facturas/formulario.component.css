@@ -52,6 +52,11 @@ input, select {
   transition: 0.3s;
   font-weight: bold;
 }
+.btn[disabled] {
+  background-color: #ccc;  /* Fondo gris cuando está deshabilitado */
+  cursor: not-allowed;     /* Cambiar el cursor a 'no permitido' */
+  opacity: 0.6;            /* Reduce la opacidad para mostrar que no es interactuable */
+}
 
 .btn-primary {
   background-color: #004080;

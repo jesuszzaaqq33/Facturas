@@ -4,18 +4,18 @@
   </div>
   <h2>Crear Factura Electrónica</h2>
 
-  <form (ngSubmit)="createInvoice()" class="factura-form">
+  <form (ngSubmit)="createInvoice()" class="factura-form" #form="ngForm">
     <div class="form-group">
+      <label for="numeroFactura">Numero de factura:</label>
+      <input type="text" id="numeroFactura" name="numeroFactura" [(ngModel)]="numeroFactura" required>
       <label for="client">Cliente:</label>
       <select id="client" [(ngModel)]="client" name="client" required>
         <option *ngFor="let client of clients" [value]="client._id">{{ client.name }}</option>
       </select>
       <button type="button" (click)="editClient()" class="btn btn-primary">Editar Clientes</button>
       <button type="button" (click)="newClient()" class="btn btn-primary">Nuevo Cliente</button>
-      <button type="submit" class="btn btn-primary">Crear Factura</button>
+      <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Crear Factura</button>
     </div>
-
-
   </form>
 
   <div class="btn-container">
