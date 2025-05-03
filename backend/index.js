@@ -17,12 +17,26 @@ const allowedOrigins = [
 ]
 app.use(express.json())
 // Opción más segura: Permitir solo Angular (4200)
+// app.use(cors({
+//   origin: allowedOrigins, // Permite solo este dominio
+//   methods: 'GET,POST,PUT,DELETE',
+//   allowedHeaders: 'Content-Type,Authorization',
+//   credentials: true
+// }))
 app.use(cors({
-  origin: allowedOrigins, // Permite solo este dominio
-  methods: 'GET,POST,PUT,DELETE',
-  allowedHeaders: 'Content-Type,Authorization',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true)
+    } else {
+      callback(new Error('CORS not allowed for this origin'))
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }))
+app.options('*', cors())
+
 // Middleware para JSON
 app.use(cookieParser())
 // Conectar a MongoDB
