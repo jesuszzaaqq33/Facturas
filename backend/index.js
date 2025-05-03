@@ -11,16 +11,19 @@ import cookieParser from 'cookie-parser' // 👈 Importar
 import clientRoutes from './routes/clientRoutes.js'
 
 const app = express()
+const allowedOrigins = [
+  'http://localhost:4200',
+  'https://jesuszzaaqq33.github.io'
+]
 app.use(express.json())
 // Opción más segura: Permitir solo Angular (4200)
 app.use(cors({
-  origin: 'http://localhost:4200', // Permite solo este dominio
+  origin: allowedOrigins, // Permite solo este dominio
   methods: 'GET,POST,PUT,DELETE',
   allowedHeaders: 'Content-Type,Authorization',
   credentials: true
 }))
 // Middleware para JSON
-
 app.use(cookieParser())
 // Conectar a MongoDB
 const connectDB = async () => {
