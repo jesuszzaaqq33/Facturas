@@ -24,12 +24,15 @@ export class LoginComponent {
     }, { withCredentials: true })
     .subscribe({
       next: (response) => {
-        console.log('Respuesta del servidor:', response); // ✅ Ver qué devuelve el backend
+        console.log('Respuesta del servidor:', response);
         localStorage.setItem('token', response.token);
+        console.log("aqui")
         this.router.navigate(['/facturas']);
+        console.log("aqu2")
+
       },
       error: (error) => {
-        console.error('Error del servidor:', error); // ✅ Imprimir error detallado
+        console.error('Error del servidor:', error);
         alert(error.error?.message || 'Credenciales incorrectas');
       }
     });

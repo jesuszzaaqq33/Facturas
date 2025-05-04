@@ -51,7 +51,7 @@ export const login = async (req, res) => {
     res.cookie('token', token, {
       httpOnly: true, // El token no es accesible por JavaScript en el frontend
       secure: process.env.NODE_ENV === 'production', // Solo en HTTPS en producción
-      sameSite: 'strict', // Protege contra ataques CSRF
+      sameSite: 'None', // Protege contra ataques CSRF
       maxAge: 3600000 // 1 hora
     })
     res.json({ message: 'Login exitoso', token })
