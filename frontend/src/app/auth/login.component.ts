@@ -26,10 +26,7 @@ export class LoginComponent {
       next: (response) => {
         console.log('Respuesta del servidor:', response);
         localStorage.setItem('token', response.token);
-        console.log("aqui")
         this.router.navigate(['/facturas']);
-        console.log("aqu2")
-
       },
       error: (error) => {
         console.error('Error del servidor:', error);
